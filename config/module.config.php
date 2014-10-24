@@ -2,59 +2,88 @@
 return array(
 	'controllers' => array(
 		'invokables' => array(
-			'S3UTaxonomy\Controller\Index' => 'S3UTaxonomy\Controller\IndexController',
+			'Taxonomy\Controller\Index' => 'Taxonomy\Controller\IndexController',
 		),
 	),
+
+    'view_manager' => array(
+        'template_path_stack' => array(
+            'taxonomy' => __DIR__ . '/../view'
+        )
+    ),
+
     'router' => array(
         'routes' => array(
-            's3u_taxonomy' => array(
+            'taxonomies' => array(
                 'type'    => 'literal', 
                 'options' => array(
-                    'route'    => '/s3u_taxonomy',                     
+                    'route'    => '/taxonomy',                     
                     'defaults' => array(
-                       '__NAMESPACE__'=>'S3UTaxonomy\Controller',
+                        '__NAMESPACE__' => 'Taxonomy\Controller',
                         'controller' => 'Index',
-                        'action'     => 'index',
+                        'action'     => 'admin',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(                    
-                    'crud' => array(
-                        'type'    => 'Segment',
+                    'taxonomy' => array(
+                        'type'    => 'segment',
                         'options' => array(
-                            'route'    => '[/][:action][/:id]',
+                            'route'    => '[/][:tax]',
                             'constraints' => array(                            
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id'=>'[0-9]+',
-                            ),                            
+                                'tax'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),  
+                            'defaults' => array(
+                                'action'     => 'index',
+                            )                          
                         ),
-                    ),                    
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'crud' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '[/][:action][/:id]',
+                                    'constraints' => array(
+                                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'id' => '[0-9]*'
+                                    )
+                                )
+                            )
+                        ),
+                    ),
+                    'not_found' => array(
+                        'type' => 'literal',
+                        'options' => array(
+                            'route' => '/not-found',
+                            'defaults' => array(
+                                'action' => 'notFound'
+                            ),
+                            'query' => array( 
+                                //Query route deprecated as of ZF 2.1.4; use the "query" option of the HTTP router\'s assembling method instead
+                                'type' => 'query',
+                            ),
+                        ),
+                    )                   
                 ),
-             ),
+            ),
          ),
      ),
-
-	'view_manager' => array(
-		'template_path_stack' => array(
-			'tax' => __DIR__ . '/../view'
-		)
-	),
 
 	'doctrine' => array(
         'driver' => array(
 
-            's3u_taxonomy_annotation_driver' => array(
+            'taxonomy_annotation_driver' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__.'/../src/S3UTaxonomy/Entity',//Edit
+                    __DIR__.'/../src/Taxonomy/Entity',
                 ),
             ),
 
             'orm_default' => array(
                 'drivers' => array(
 
-                    'S3UTaxonomy\Entity' => 's3u_taxonomy_annotation_driver'//Edit
+                    'Taxonomy\Entity' => 'taxonomy_annotation_driver'
                 )
             )
         )

@@ -1,26 +1,25 @@
 <?php
-namespace S3UTaxonomy\Entity;
+namespace Taxonomy\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
 * @ORM\Entity
 * @ORM\Table(name="zf_term_taxonomy")
 */
-class ZfTermTaxonomy
+class TermTaxonomy
 {
 	/**
-	* @ORM\Column(type="bigint",length=20)
+	* @ORM\Column(name="term_taxonomy_id", type="integer")
 	* @ORM\Id
 	* @ORM\GeneratedValue
 	*/
-	private $term_taxonomy_id;
+	private $id;
 
 	/**
-	* @ORM\Column(type="bigint",length=20)
-	* @ORM\ManyToOne(targetEntity="S3UTaxonomy\Entity\ZfTerm")
+	* @ORM\ManyToOne(targetEntity="Taxonomy\Entity\Term", cascade={"persist"})
 	* @ORM\JoinColumn(name="term_id", referencedColumnName="term_id")
 	*/
-	private $term_id;
+	private $term;
 
 	/**
 	 * @ORM\Column(length=200)
@@ -28,41 +27,44 @@ class ZfTermTaxonomy
 	private $taxonomy;
 
 	/**
-	 * @ORM\Column(type="longtext")
+	 * @ORM\Column(type="text")
 	 */
 	private $description;
 
 	/**
-	* @ORM\Column(type="bigint",length=20)
-	* @ORM\ManyToOne(targetEntity="S3UTaxonomy\Entity\ZfTermTaxonomy")
+	* @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy")
 	* @ORM\JoinColumn(name="parent", referencedColumnName="term_taxonomy_id", nullable=true)
 	*/
 	private $parent;
 
 	/**
-	* @ORM\Column(type="bigint",length=20)
+	* @ORM\Column(type="integer")
 	*/
 	private $count;
 
+	private $level;
 
-	public function getTermTaxonomyId()
+
+	public function getId()
 	{
-		return $this->term_taxonomy_id;
+		return $this->id;
 	}
 
-	public function setTermId($term_id)
+	public function setTerm($term)
 	{
-		$this->term_id=$term_id;
+		$this->term = $term;
+		return $this;
 	}
 
-	public function getTermId()
+	public function getTerm()
 	{
-		return $this->term_id;
+		return $this->term;
 	}
 
 	public function setTaxonomy($taxonomy)
 	{
-		$this->taxonomy=$taxonomy;
+		$this->taxonomy = $taxonomy;
+		return $this;
 	}
 
 	public function getTaxonomy()
@@ -72,7 +74,8 @@ class ZfTermTaxonomy
 
 	public function setDescription($description)
 	{
-		$this->description=$description;
+		$this->description = $description;
+		return $this;
 	}
 
 	public function getDescription()
@@ -82,7 +85,8 @@ class ZfTermTaxonomy
 
 	public function setParent($parent)
 	{
-		$this->parent=$parent;
+		$this->parent = $parent;
+		return $this;
 	}
 
 	public function getParent()
@@ -92,12 +96,22 @@ class ZfTermTaxonomy
 
 	public function setCount($count)
 	{
-		$this->count=$count;
+		$this->count = $count;
+		return $this;
 	}
 
 	public function getCount()
 	{
 		return $this->count;
+	}
+
+	public function setLevel($level){
+		$this->level = $level;
+		return $this;
+	}
+
+	public function getLevel(){
+		return $this->level;
 	}
 }
 ?>

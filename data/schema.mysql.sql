@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `zf_term` (
   `term_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `slug` varchar(200) NOT NULL,
-  `term_group` bigint(10) NOT NULL,
+  `term_group` bigint(10),
   PRIMARY KEY (`term_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS `zf_term_taxonomy` (
   `term_taxonomy_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `term_id` bigint(20) NOT NULL,
   `taxonomy` varchar(200) NOT NULL,
-  `description` longtext NOT NULL,
-  `parent` bigint(20) NOT NULL,
-  `count` bigint(20) NOT NULL,
+  `description` longtext,
+  `parent` bigint(20),
+  `count` bigint(20),
   PRIMARY KEY (`term_taxonomy_id`),
   KEY `term_id` (`term_id`),
   KEY `parent` (`parent`)
