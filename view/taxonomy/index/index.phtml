@@ -5,8 +5,8 @@
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
  <p>
-     <a href="<?php echo $this->url('taxonomies/taxonomy/crud', array('tax'=>$tax,'action'=>'add'));?>">Add taxon</a>
-      | <a href="<?php echo $this->url('taxonomies') ?>">Back to taxonomy list</a>
+     <a href="<?php echo $this->url('domain/index/crud', array('tax'=>$tax,'action'=>'add'));?>">Add taxon</a>
+      | <a href="<?php echo $this->url('main.domain/taxonomies') ?>">Back to taxonomy list</a>
  </p>
 
 <table class="table">

@@ -38,7 +38,7 @@
  	{
         $tax = $this->params()->fromRoute('tax', null);
         if (!$tax) {
-            return $this->redirect()->toRoute('taxonomies');
+            return $this->redirect()->toRoute('main.domain/taxonomies');
         }
         $this->checkIfInsideList($tax);
 
@@ -61,7 +61,7 @@
  	{
  		$tax = $this->params()->fromRoute('tax', null);
         if (!$tax) {
-            return $this->redirect()->toRoute('taxonomies');
+            return $this->redirect()->toRoute('main.domain/taxonomies');
         }
         $this->checkIfInsideList($tax);
  		
@@ -79,7 +79,7 @@
                 $objectManager->persist($taxonomy);
                 $objectManager->flush();
 
-                return $this->redirect()->toRoute('taxonomies/taxonomy', array('tax'=>$tax));
+                return $this->redirect()->toRoute('domain/index', array('tax'=>$tax));
             }
         }
                 
@@ -123,7 +123,7 @@
     public function checkIfInsideList($tax){
         $taxonomies = $this->getOptions()->getTaxonomies();
         if(!$this->taxonomyPlugin()->checkInside($taxonomies, $tax))
-            return $this->redirect()->toRoute('taxonomies/not_found', array(), array('query'=>array('tax'=>$tax)));
+            return $this->redirect()->toRoute('main.domain/taxonomies/not_found', array(), array('query'=>array('tax'=>$tax)));
         // Query route deprecated as of ZF 2.1.4; use the "query" option of the HTTP router\'s assembling method instead
     }
  }
