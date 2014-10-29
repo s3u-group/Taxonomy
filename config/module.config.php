@@ -14,35 +14,66 @@ return array(
 
     'router' => array(
         'routes' => array(
-            'taxonomies' => array(
-                'type'    => 'literal', 
+            'main.domain' => array(
+                'type' => 'hostname',
                 'options' => array(
-                    'route'    => '/taxonomy',                     
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Taxonomy\Controller',
-                        'controller' => 'Index',
-                        'action'     => 'admin',
+                    'route' => 'zendtut.com', 
+                ),
+                'child_routes' => array(
+                    'taxonomies' => array(
+                        'type'    => 'literal', 
+                        'options' => array(
+                            'route'    => '/taxonomy',                     
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'Taxonomy\Controller',
+                                'controller' => 'Index',
+                                'action'     => 'admin',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(                    
+                            'not_found' => array(
+                                'type' => 'literal',
+                                'options' => array(
+                                    'route' => '/not-found',
+                                    'defaults' => array(
+                                        'action' => 'notFound'
+                                    ),
+                                    'query' => array( 
+                                        //Query route deprecated as of ZF 2.1.4; use the "query" option of the HTTP router\'s assembling method instead
+                                        'type' => 'query',
+                                    ),
+                                ),
+                            )                   
+                        ),
                     ),
                 ),
-                'may_terminate' => true,
-                'child_routes' => array(                    
-                    'taxonomy' => array(
-                        'type'    => 'segment',
+            ),
+
+            'domain' => array(
+                'type' => 'hostname',
+                'options' => array(
+                    'route' => ':tax.zendtut.com', // domain levels from right to left
+                    'contraints' => array(
+                        'tax' => '.*?'
+                    ),
+                ),
+                'child_routes' => array(
+                    'index' => array(
+                        'type' => 'literal',
                         'options' => array(
-                            'route'    => '[/][:tax]',
-                            'constraints' => array(                            
-                                'tax'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),  
+                            'route' => '/',
                             'defaults' => array(
-                                'action'     => 'index',
-                            )                          
+                                'controller' => 'Taxonomy\Controller\Index',
+                                'action' => 'index',
+                            ),
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
                             'crud' => array(
                                 'type' => 'segment',
                                 'options' => array(
-                                    'route' => '[/][:action][/:id]',
+                                    'route' => '[:action][/:id]',
                                     'constraints' => array(
                                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                         'id' => '[0-9]*'
@@ -51,19 +82,6 @@ return array(
                             )
                         ),
                     ),
-                    'not_found' => array(
-                        'type' => 'literal',
-                        'options' => array(
-                            'route' => '/not-found',
-                            'defaults' => array(
-                                'action' => 'notFound'
-                            ),
-                            'query' => array( 
-                                //Query route deprecated as of ZF 2.1.4; use the "query" option of the HTTP router\'s assembling method instead
-                                'type' => 'query',
-                            ),
-                        ),
-                    )                   
                 ),
             ),
          ),
