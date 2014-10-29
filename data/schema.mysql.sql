@@ -1,24 +1,22 @@
-CREATE TABLE IF NOT EXISTS `zf_term` (
-  `term_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
-  `slug` varchar(200) NOT NULL,
-  `term_group` bigint(10),
-  PRIMARY KEY (`term_id`)
+CREATE TABLE IF NOT EXISTS `terms` (
+  `term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `slug` varchar(200) NOT NULL DEFAULT '',
+  `term_group` bigint(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`term_id`),
+  UNIQUE KEY `slug` (`slug`),
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS `zf_term_taxonomy` (
-  `term_taxonomy_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `term_id` bigint(20) NOT NULL,
-  `taxonomy` varchar(200) NOT NULL,
-  `description` longtext,
-  `parent` bigint(20),
-  `count` bigint(20),
+CREATE TABLE IF NOT EXISTS `term_taxonomy` (
+  `term_taxonomy_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `term_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `taxonomy` varchar(32) NOT NULL DEFAULT '',
+  `description` longtext NOT NULL,
+  `parent` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `count` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`term_taxonomy_id`),
-  KEY `term_id` (`term_id`),
-  KEY `parent` (`parent`)
+  UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
+  KEY `taxonomy` (`taxonomy`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-ALTER TABLE `zf_term_taxonomy`
-  ADD CONSTRAINT `zf_term_taxonomy_ibfk_2` FOREIGN KEY (`parent`) REFERENCES `zf_term_taxonomy` (`term_taxonomy_id`),
-  ADD CONSTRAINT `zf_term_taxonomy_ibfk_1` FOREIGN KEY (`term_id`) REFERENCES `zf_term` (`term_id`);
