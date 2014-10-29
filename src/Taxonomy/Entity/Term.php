@@ -6,7 +6,7 @@ use BaconStringUtils\Slugifier;
 
 /**
 * @ORM\Entity
-* @ORM\Table(name="zf_term")
+* @ORM\Table(name="terms")
 */
 class Term
 {

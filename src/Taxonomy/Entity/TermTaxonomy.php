@@ -4,7 +4,7 @@ namespace Taxonomy\Entity;
 use Doctrine\ORM\Mapping as ORM;
 /**
 * @ORM\Entity
-* @ORM\Table(name="zf_term_taxonomy")
+* @ORM\Table(name="term_taxonomy")
 */
 class TermTaxonomy
 {
