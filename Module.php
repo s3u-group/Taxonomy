@@ -1,4 +1,3 @@
-123
 <?php
 namespace Taxonomy;
 
