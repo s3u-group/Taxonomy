@@ -30,7 +30,7 @@ class Term
 	/**
 	 * @ORM\Column(name="term_group", type="integer")
 	 */
-	private $termGroup;
+	private $termGroup='';
 
 	public function getId()
 	{
