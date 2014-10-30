@@ -33,14 +33,14 @@ class TermTaxonomy
 
 	/**
 	* @ORM\ManyToOne(targetEntity="Taxonomy\Entity\TermTaxonomy")
-	* @ORM\JoinColumn(name="parent", referencedColumnName="term_taxonomy_id", nullable=true)
+	* @ORM\JoinColumn(name="parent", referencedColumnName="term_taxonomy_id")
 	*/
 	private $parent;
 
 	/**
 	* @ORM\Column(type="integer")
 	*/
-	private $count;
+	private $count='';
 
 	private $level;
 
